@@ -23,11 +23,18 @@ function App() {
   
   function submitGoblin(e) {
     e.preventDefault();
+
+    const goblin = {
+      name: goblinFormName,
+      hp: goblinFormHP,
+      color: goblinFormColor,
+    };
+
+    const updatedGoblins = [...allGoblins, goblin];
+    setGoblins(updatedGoblins);
     
     // on submit, make a new goblin object with a name that comes from the form state, an hp that comes from the form state, and a color that comes from the form state
-
     // update the allGoblins array. Add the new goblin to the allGoblins array immutably.
-    
     // clear out the goblin form state items by setting them to empty strings. This will cause the form to reset in the UI.
   }
 
