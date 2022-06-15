@@ -7,7 +7,7 @@ import Goblin from './Goblin';
 function App() {
 
   const [allGoblins, setAllGoblins] = useState([]);
-  const [visibleGoblins, setVisibleGoblins] = useState('');
+  const [visibleGoblins, setVisibleGoblins] = useState([]);
   const [goblinFormName, setGoblinFormName] = useState('');
   const [goblinFormColor, setGoblinFormColor] = useState('');
   const [goblinFormHP, setGoblinFormHP] = useState('');
@@ -29,9 +29,12 @@ function App() {
       hp: goblinFormHP,
       color: goblinFormColor,
     };
-
     const updatedGoblins = [...allGoblins, goblin];
     setAllGoblins(updatedGoblins);
+    setGoblinFormColor('');
+    setGoblinFormHP('');
+    setGoblinFormName('');
+
     
     // on submit, make a new goblin object with a name that comes from the form state, an hp that comes from the form state, and a color that comes from the form state
     // update the allGoblins array. Add the new goblin to the allGoblins array immutably.
@@ -48,13 +51,13 @@ function App() {
     // update the allGoblins array immutably to this new, smaller array
   }
 
-  function handleFilterGoblins(visibleGoblins) {
-    setVisibleGoblins(visibleGoblins);
-    const updatedGoblins = allGoblins.filter(goblin => goblin.goblinFormName);
+  function handleFilterGoblins(search) {
+    const updatedGoblins = allGoblins.filter(goblin => goblin.name.includes(search));
     setVisibleGoblins(updatedGoblins);
     // use the filter method to get an array of goblins whose name includes this search argument
     // if there is a search argument, set the visible goblins to the filtered goblins
     // if the search argument is undefined, set the visible goblins in state to just be the array of all goblins
+    search ? setVisibleGoblins(updatedGoblins) : setVisibleGoblins(allGoblins);
   }
 
 
@@ -62,6 +65,9 @@ function App() {
     <div className="App">
       <div className='current-goblin quarter'>
         <Goblin goblin={{
+          name: goblinFormName,
+          hp: goblinFormHP,
+          color: goblinFormColor,
           /* 
             use the goblin form state to make a goblin object and to display it. 
             This will let the user see the current form state 
@@ -70,7 +76,8 @@ function App() {
       </div>
       <div className='goblin-filter quarter'>
         Filter Goblins
-        {/* note that handleFilterGoblins is defined upstairs. This is where the allGoblins array gets filtered */}
+        {/* note that handleFilterGoblins is defined upstairs. This is where the 
+        allGoblins array gets filtered */}
         <input onChange={(e) => handleFilterGoblins(e.target.value)} />
       </div>
       <GoblinForm 
@@ -86,7 +93,8 @@ function App() {
           setGoblinFormColor, goblinFormHP, setGoblinFormHP,*/
       />
       <GoblinList 
-        goblins={visibleGoblins} // this takes in an array of goblins. If the filteredGoblins has a length, use that array. Otherwise, use the allGoblins array 
+
+        goblins={visibleGoblins.length ? visibleGoblins : allGoblins} // this takes in an array of goblins. If the filteredGoblins has a length, use that array. Otherwise, use the allGoblins array 
         handleDeleteGoblin={handleDeleteGoblin} // note that the goblin list has access to the ability to delete
       />
     </div>
