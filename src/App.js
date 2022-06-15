@@ -11,6 +11,7 @@ function App() {
   const [goblinFormName, setGoblinFormName] = useState('');
   const [goblinFormColor, setGoblinFormColor] = useState('');
   const [goblinFormHP, setGoblinFormHP] = useState('');
+  const [filteredGoblins, setFilteredGoblins] = useState('');
 
   /* 
     track: 
@@ -31,24 +32,28 @@ function App() {
     };
 
     const updatedGoblins = [...allGoblins, goblin];
-    setGoblins(updatedGoblins);
+    setAllGoblins(updatedGoblins);
     
     // on submit, make a new goblin object with a name that comes from the form state, an hp that comes from the form state, and a color that comes from the form state
     // update the allGoblins array. Add the new goblin to the allGoblins array immutably.
     // clear out the goblin form state items by setting them to empty strings. This will cause the form to reset in the UI.
   }
 
-  function handleDeleteGoblin(name) {
+  function handleDeleteGoblin(goblinFormName) {
+    const index = allGoblins.findIndex(goblin => goblin.goblinFormName === goblinFormName);
+    allGoblins.splice(index, 1); 
+    setAllGoblins([...allGoblins]);
+
     // find the index of the goblin in allGoblins with this name
-
     // use splice to delete the goblin object at this index
-
     // update the allGoblins array immutably to this new, smaller array
   }
 
-  function handleFilterGoblins(search) {
+  function handleFilterGoblins(filteredGoblins) {
+    setFilteredGoblins(filteredGoblins);
+    const updatedGoblins = allGoblins.filter(goblin => goblin.goblinFormName);
+    setVisibleGoblins(updatedGoblins);
     // use the filter method to get an array of goblins whose name includes this search argument
-
     // if there is a search argument, set the visible goblins to the filtered goblins
     // if the search argument is undefined, set the visible goblins in state to just be the array of all goblins
   }
