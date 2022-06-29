@@ -86,7 +86,7 @@ function App() {
         Filter Goblins
         {/* note that handleFilterGoblins is defined upstairs. This is where the 
         allGoblins array gets filtered */}
-        <input onChange={(e) => handleFilterGoblins(e.target.value)} />
+        <input onChange={(e) => handleFilterGoblins(e.target.value)} value={filterString} />
       </div>
       <GoblinForm 
         submitGoblin={submitGoblin}
