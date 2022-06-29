@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GoblinForm from './GoblinForm';
 import GoblinList from './GoblinList';
 import Goblin from './Goblin';
@@ -11,6 +11,7 @@ function App() {
   const [goblinFormName, setGoblinFormName] = useState('');
   const [goblinFormColor, setGoblinFormColor] = useState('');
   const [goblinFormHP, setGoblinFormHP] = useState('');
+  const [filterString, setFilterString] = useState('');
 
   /* 
     track: 
@@ -41,6 +42,7 @@ function App() {
     // clear out the goblin form state items by setting them to empty strings. This will cause the form to reset in the UI.
   }
 
+
   function handleDeleteGoblin(goblinFormName) {
     const index = allGoblins.findIndex(goblin => goblin.goblinFormName === goblinFormName);
     allGoblins.splice(index, 1); 
@@ -60,9 +62,15 @@ function App() {
     search ? setVisibleGoblins(updatedGoblins) : setVisibleGoblins(allGoblins);
   }
 
+  useEffect(() => {
+    setVisibleGoblins(allGoblins);
+    setFilterString('');
+  }, [allGoblins]);
+
 
   return (
     <div className="App">
+      <h1>Welcome</h1>
       <div className='current-goblin quarter'>
         <Goblin goblin={{
           name: goblinFormName,
@@ -78,7 +86,7 @@ function App() {
         Filter Goblins
         {/* note that handleFilterGoblins is defined upstairs. This is where the 
         allGoblins array gets filtered */}
-        <input onChange={(e) => handleFilterGoblins(e.target.value)} />
+        <input onChange={(e) => handleFilterGoblins(e.target.value)} value={filterString} />
       </div>
       <GoblinForm 
         submitGoblin={submitGoblin}
